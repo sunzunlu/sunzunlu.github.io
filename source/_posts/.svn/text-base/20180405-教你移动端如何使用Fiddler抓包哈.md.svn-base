@@ -1,0 +1,80 @@
+---
+title: 教你手机端如何抓包
+date: 2018-09-06 22:16:59
+tags: Fiddler抓包
+categories: Fiddler
+copyright: true
+---
+
+文档维护者：`移动研发部-孙尊路 `
+
+# 目录
+
+>1. [前言](#前言 "前言")
+1. [教程](#教程 "教程")
+    1. [工具/原料](#工具/原料 "【工具/原料】")
+    1. [方法/步骤](#方法/步骤 "【方法/步骤】")
+
+## 前言
+- **Fiddler是什么：** Fiddler是一款非常流行并且实用的http抓包工具，它的原理是在本机开启了一个http的代理服务器，然后它会转发所有的http请求和响应，因此，它比一般的firebug或者是chrome自带的抓包工具要好用的多。不仅如此，它还可以支持请求重放等一些高级功能。**`显然它是可以支持对手机应用进行http抓包的`**。特别是在**`内网环境下能极大的方便现场人员分析和排查问题`**，本文就来介绍下如何用fiddler对手机应用来抓包。
+
+- **适用人员范围：** **`实施同事（必会技能）`**、`开发同事`、`测试同事`
+
+
+## 工具/原料
+
+-  <a target="view_window" href="https://www.telerik.com/download/fiddler/fiddler4">Fiddler抓包工具官方前往下载</a>
+
+-  Android、iOS 移动设备
+
+## 方法/步骤
+###  （1）启动Fiddler，打开菜单栏中的` Tools >  Options`，打开`“Options”`对话框。
+
+![](http://ydyfcs.epoint.com.cn:8066/doc/ydyf3z/assets/005/20180313-9997c4a4.png)
+
+###  （2）在Options”对话框切换到`“Connections”选项卡`，然后勾选`“Allow romote computers to connect”`后面的复选框，切记：Fiddler 默认监听的端口：`8888`，然后点击“OK”按钮，**关键：配置好之后，需要重启Fiddler**。
+
+![](http://ydyfcs.epoint.com.cn:8066/doc/ydyf3z/assets/005/20180313-d00f6a36.png)
+
+###  （3）下载一个猎豹免费WiFi并开启自己的无线局域网(电脑自带的也行)
+
+![](http://ydyfcs.epoint.com.cn:8066/doc/ydyf3z/assets/005/20180313-41c3a443.png)
+
+###  （4）在本机命令行输入：ipconfig，找到本机的ip地址，查看无线局域网的IP地址，比如:`192.168.191.1`,这是我的无线网地址。
+
+![](http://ydyfcs.epoint.com.cn:8066/doc/ydyf3z/assets/005/20180313-ae29a7a2.png)
+
+###  （5）打开Android、iOS设备的`“设置”->“WLAN”`，找到你要连接的网络，在上面长按，然后选择`“修改网络”`，弹出网络设置对话框，然后`勾选“显示高级选项”`。
+
+![](http://ydyfcs.epoint.com.cn:8066/doc/ydyf3z/assets/005/20180313-73f9e498.png)
+
+
+###  （6）在`“代理”`后面的输入框选择`“手动”`，在`“代理服务器主机名”`后面的输入框输入电脑的无线ip地址，在`“代理服务器端口”`后面的输入框输入`8888`，然后点击`“保存”`按钮。
+
+![](http://ydyfcs.epoint.com.cn:8066/doc/ydyf3z/assets/005/20180313-9ee7a78c.png)
+
+###  （7）然后打开你项目的**`移动APP`** ，这里以`移动办公APP`的公务邮件模块为例，访问首页- ``公务邮件``模块，在fiddler中可以看到邮件列表接口的请求数据和响应数据。
+
+![](http://ydyfcs.epoint.com.cn:8066/doc/ydyf3z/assets/005/20180313-3f96e9b0.png)
+
+###  （8）如何把`请求参数和响应结果复制出来`发给接口人员排查
+
+点击接口请求地址（以epoint-sso-web/rest/oauth2/token为例）,点击右侧菜单 `TextView` ，一般`TextView`输入参数是经过URLEncode编码过的，此时你需选中`TextView全部内容`右击`Send Tto TextWizard` ，选择`TransForm`下拉列表里的`URLDecode`编码格式，将输入参数复制出来即可，请求结果一样复制出来就行了。
+
+![](http://ydyfcs.epoint.com.cn:8066/doc/ydyf3z/assets/005/20180715-fiddler.png)
+
+###  （9）怎么样，是不是很简单，快来试试吧！
+
+## `注意`
+### 经常遇到有同事说手机代理开启之后(`前提：配置完全没有问题`)手机连不上网，网页都打不开,这是怎么回事儿？
+#### - `检查电脑防火墙是否为关闭状态`
+#### - `如果是iOS,代理配置完后要重新启动一下Fiddler才行。`
+
+## 其他资料
+先来说说移动设备怎么去访问网络，看了下面这张图，就明白了。
+
+![](http://images2015.cnblogs.com/blog/626593/201601/626593-20160120124738078-1117636725.png)
+
+可以看得出，移动端的数据包，都是要走wifi出去，所以我们可以把自己的电脑开启热点，将手机连上电脑，Fiddler开启代理后，让这些数据通过Fiddler，Fiddler就可以抓到这些包，然后发给路由器（如图）
+
+![](http://images2015.cnblogs.com/blog/626593/201601/626593-20160120124738953-1847443891.png)

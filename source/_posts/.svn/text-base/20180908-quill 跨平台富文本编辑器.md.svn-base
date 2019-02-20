@@ -1,0 +1,183 @@
+---
+title: quill 跨平台富文本编辑器
+date: 2018-09-08 20:16:59
+tags: quill 跨平台富文本编辑器
+categories: quill 跨平台富文本编辑器
+copyright: true
+---
+
+##  介绍
+一直以来，移动端对富文本编辑都支持的不是很好（手机屏幕小、不好操作等等原因），之前也一直尝试在用`contenteditable="true"` 这个属性对富文本做过一些简单的处理（换行、字体大小等），效果做的都不是很理想，安卓上操作还可以，iOS光标位置、选择等各种不支持。下面这个开源项目会让你对富文本编辑器会有一个新的理解，该编辑器的本质还是使用了`contenteditable="true"`这个属性进行拓展，和我们经常使用的markdown编辑器有异曲同工之处。还等什么？来一起学习吧。
+
+
+## 实例展示
+![](http://ydyfcs.epoint.com.cn:8066/H5/Attaches/%E5%AF%8C%E6%96%87%E6%9C%AC%E7%BC%96%E8%BE%91%E5%99%A8/showcase_editor.gif)  
+
+
+- [移动端富文本编辑器操作效果](http://ydyfcs.epoint.com.cn:8066/H5/Attaches/%E5%AF%8C%E6%96%87%E6%9C%AC%E7%BC%96%E8%BE%91%E5%99%A8/showcase_editor/showcase_editor.html) ` 注：按F12可在浏览器预览`
+
+- 示例demo源代码(H5)：[点击此处进行下载](http://ydyfcs.epoint.com.cn:8066/H5/Attaches/%E5%AF%8C%E6%96%87%E6%9C%AC%E7%BC%96%E8%BE%91%E5%99%A8/showcase_editor.zip)
+
+## 典型项目应用案例
+
+- 【公务邮件-写邮件】 写邮件
+
+## 依赖资源
+
+##### 核心引入
+- `js/quill.snow.css` quill样式库
+- `js/quill.js` quill组件核心js
+
+##### 额外引入（支持文档化、样式高亮等）：
+- `js/katex.min.js`
+- `js/katex.min.css`
+- `js/highlight.min.js`
+- `js/monokai-sublime.min.css`
+
+
+
+
+## 配置和使用方法
+
+__DOM结构__
+
+一个`div`即可
+
+```html
+<div id="editor-container"></div>
+```
+
+__初始化__
+
+以下代码是最简单的用法，更多复杂用法请参考`showcase_editor`[源码下载](http://ydyfcs.epoint.com.cn:8066/H5/Attaches/%E5%AF%8C%E6%96%87%E6%9C%AC%E7%BC%96%E8%BE%91%E5%99%A8/showcase_editor.zip)
+
+```js
+var quill = new Quill('#editor-container', {
+    modules: {
+        formula: true,
+        syntax: true,
+        toolbar: '#toolbar-container'
+    },
+    placeholder: '请输入内容...',
+    theme: 'snow'
+});
+```
+
+__HTML中手动创建toolbar__
+
+![](http://ydyfcs.epoint.com.cn:8066/doc/ydyf3z/assets/005/20180908-080bbfc9.png)  
+
+```html
+<div id="toolbar-container">
+    <span class="ql-formats">
+        <select class="ql-font">
+        </select>
+        <select class="ql-size">
+        </select>
+    </span>
+    <span class="ql-formats">
+        <button class="ql-bold">
+        </button>
+        <button class="ql-italic">
+        </button>
+        <button class="ql-underline">
+        </button>
+        <button class="ql-strike">
+        </button>
+    </span>
+    <span class="ql-formats">
+        <select class="ql-color">
+        </select>
+        <select class="ql-background">
+        </select>
+    </span>
+    <span class="ql-formats">
+        <button class="ql-script" value="sub">
+        </button>
+        <button class="ql-script" value="super">
+        </button>
+    </span>
+    <span class="ql-formats">
+        <button class="ql-header" value="1">
+        </button>
+        <button class="ql-header" value="2">
+        </button>
+        <button class="ql-blockquote">
+        </button>
+        <button class="ql-code-block">
+        </button>
+    </span>
+    <span class="ql-formats">
+        <button class="ql-list" value="ordered">
+        </button>
+        <button class="ql-list" value="bullet">
+        </button>
+        <button class="ql-indent" value="-1">
+        </button>
+        <button class="ql-indent" value="+1">
+        </button>
+    </span>
+    <span class="ql-formats">
+        <button class="ql-direction" value="rtl">
+        </button>
+        <select class="ql-align">
+        </select>
+    </span>
+    <span class="ql-formats">
+        <button class="ql-link">
+        </button>
+        <button class="ql-image">
+        </button>
+        <button class="ql-video">
+        </button>
+        <button class="ql-formula">
+        </button>
+    </span>
+    <span class="ql-formats">
+        <button class="ql-clean">
+        </button>
+    </span>
+</div>
+```
+
+
+__自定义toolbar 按钮样式和处理事件__
+
+```html
+<div id="toolbar">
+  <!-- Add buttons as you would before -->
+  <button class="ql-bold"></button>
+  <button class="ql-italic"></button>
+
+  <!-- But you can also add your own -->
+  <button id="custom-button"></button>
+</div>
+<div id="editor"></div>
+
+<script>
+var quill = new Quill('#editor', {
+  modules: {
+    toolbar: '#toolbar'
+  }
+});
+
+var customButton = document.querySelector('#custom-button');
+customButton.addEventListener('click', function() {
+  console.log('Clicked!');
+});
+</script>
+
+```
+
+# API
+
+请查看`示例demo` 后期会将常用的`api`整理出来,选择一些适合我们自己业务的常用方法。
+
+# 优点
+
+- 完全支持自定义`toolbar` 工具栏按钮以及工具栏按钮样式
+- 可以通过`handlers`重写监听按钮监听事件来实现自己的业务逻辑
+
+
+
+<a target="_blank" href="" style="display:none">- quill官网：https://quilljs.com/  </a>

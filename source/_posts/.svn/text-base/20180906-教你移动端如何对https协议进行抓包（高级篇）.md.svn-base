@@ -1,0 +1,50 @@
+---
+title: 教你移动端如何对https协议进行抓包（高级篇）
+date: 2018-09-06 22:16:59
+tags: Fiddler抓包
+categories: Fiddler
+copyright: true
+---
+
+
+文档维护者：`移动研发部-孙尊路 `
+
+##  Fiddler证书安装（查看HTTPS）
+
+现在很多带有比较重要信息的接口都使用了安全性更高的HTTPS，而Fiddler`默认是抓取HTTP类型`的接口，要想查看HTTPS类型接口就需要安装fiddler证书。
+
+手机连接fiddler可参考：http://ydyfcs.epoint.com.cn:8066/doc/ydyf3z/index.html?file=005-%E6%8A%80%E6%9C%AF%E7%A0%94%E7%A9%B6/00506-%E5%85%B6%E4%BB%96%E5%B7%A5%E5%85%B7/02-%E6%95%99%E4%BD%A0%E7%A7%BB%E5%8A%A8%E7%AB%AF%E5%A6%82%E4%BD%95%E4%BD%BF%E7%94%A8Fiddler%E6%8A%93%E5%8C%85%E5%93%88
+考
+
+- 1、首先确保安装的 Fiddler 是较新的版本，比较老的版本可能会出现安装不上fiddler证书生成器的问题。
+- 2、关闭Fiddler。
+- 3、下载并安装Fiddler证书生成器`fiddlercertmaker.exe`。（注：Fiddler 证书生成器只能在 Vista 以上系统运行）
+下载地址：http://www.telerik.com/docs/default-source/fiddler/addons/fiddlercertmaker.exe?sfvrsn=2
+- 4、打开Fiddler，点击工具栏中的Tools——>Fiddler Options…
+
+
+- 5、切换到 HTTPS 选项卡，勾选 Capture HTTPS CONNECTs，勾选 Decrypt HTTPS trafic，会弹出安装证书的提示。一路点是或确定安装即可。
+
+
+
+- 6、重启fiddler，依然停留在 HTTPS 选项卡，点击右侧Actions，能看一个下拉菜单，点击 Export Root Certificate to Desktop，此时证书会生成到桌面上，名为 FiddlerRoot.cer，点OK保存
+
+
+
+- 7、导入证书进行安装
+这部分android和ios有一点不同。
+`方法一：`
+1）android可以连接到电脑上，从电脑上打开手机的内存卡，直接把证书导入SD卡中。
+2）点击设置——>安全——>从SD卡安装——>从内部存储空间中找到证书，点击安装即可
+`方法二：`
+ ios可以在手机浏览器上登录邮箱，然后将证书发送到邮箱中，在手机上查看邮件，点击附件进行证书的安装即可
+
+-  8、查看HTTPS
+打开fiddler，Tools——>Fiddler Options…，切换到HTTPS选项卡，把选项都勾选上，点击保存，就可以查看HTTPS接口了
+
+
+
+## 参考
+- https://blog.csdn.net/liwenbo_csu/article/details/76691420
+
+- https://www.cnblogs.com/hushaojun/p/6385947.html
